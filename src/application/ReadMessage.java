@@ -3,7 +3,7 @@ import net.jini.space.JavaSpace;
 
 public class ReadMessage {
 
-    public static void main(String[] args) {
+    public ReadMessage() {
         try {
             System.out.println("Procurando pelo servico JavaSpace...");
             Lookup finder = new Lookup(JavaSpace.class);
@@ -18,10 +18,10 @@ public class ReadMessage {
             while (true) {
                 Message template = new Message();
                 Message msg = (Message) space.take(template, null, 60 * 1000);
-                if (msg == null) {
-                    System.out.println("Tempo de espera esgotado. Encerrando...");
-                    System.exit(0);
-                }
+//                if (msg == null) {
+//                    System.out.println("Tempo de espera esgotado. Encerrando...");
+//                    System.exit(0);
+//                }
                 System.out.println("Mensagem recebida: "+ msg.content);
             }
         } catch (Exception e) {

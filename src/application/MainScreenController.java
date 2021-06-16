@@ -34,8 +34,13 @@ public class MainScreenController {
     private Label itemLabel;
 
     @FXML
-    void cadastrarActionButton(ActionEvent event) {
+    Boolean cadastrarActionButton(ActionEvent event) {
+    	if (cadastrarFieldsIsEmpty()) {
+    		return false;
+    	}
+    	
     	System.out.println("cadastrar");
+    	return true;
     }
 
     @FXML
@@ -56,6 +61,20 @@ public class MainScreenController {
     @FXML
     void removerButtonAction(ActionEvent event) {
     	System.out.println("remover");
+    }
+    
+    Boolean cadastrarFieldsIsEmpty () {
+    	Boolean statusBoolean = false;
+    	
+    	if (nomeTextField.getText().isEmpty()){
+    		statusBoolean = true;
+    	}else if(valorTextField.getText().isEmpty()) {
+    		statusBoolean = true;
+    	}else if(descricaoTextArea.getText().isEmpty()) {
+    		statusBoolean = true;
+    	}
+    	
+    	return statusBoolean;
     }
 
 }
