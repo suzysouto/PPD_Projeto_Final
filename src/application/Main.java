@@ -5,7 +5,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 	
-	ReadMessage readMessage;
+//	ReadMessage readMessage;
 	
 	@Override
 	public void start(Stage primaryStage) {

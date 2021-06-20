@@ -1,4 +1,8 @@
 package application;
+
+import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -8,9 +12,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
 public class MainScreenController {
+	
+	ReadMessage readMessage;
+	List<LeilaoItem> leilaoArrayList;
+	ObservableList<LeilaoItem> leilaoObservableList;
 
     @FXML
-    private ListView<?> leilaoItemList;
+    private ListView<LeilaoItem> leilaoItemList;
 
     @FXML
     private TextField nomeTextField;
@@ -40,6 +48,15 @@ public class MainScreenController {
     	}
     	
     	System.out.println("cadastrar");
+    	
+    	LeilaoItem leilaoItem = new LeilaoItem(
+    			nomeTextField.getText(),
+    			valorTextField.getText(),
+    			descricaoTextArea.getText());
+    	
+		Thread writeMessageThread = new Thread(){ public void run(){ WriteMessage writeMessage = new WriteMessage(leilaoItem); } };
+		writeMessageThread.start();
+    	
     	return true;
     }
 
@@ -56,6 +73,7 @@ public class MainScreenController {
     @FXML
     void registrarButtonAction(ActionEvent event) {
     	System.out.println("registrar");
+    	updateLeilaoListView();
     }
 
     @FXML
@@ -63,7 +81,7 @@ public class MainScreenController {
     	System.out.println("remover");
     }
     
-    Boolean cadastrarFieldsIsEmpty () {
+    public Boolean cadastrarFieldsIsEmpty () {
     	Boolean statusBoolean = false;
     	
     	if (nomeTextField.getText().isEmpty()){
@@ -75,6 +93,25 @@ public class MainScreenController {
     	}
     	
     	return statusBoolean;
+    }
+    
+    public void updateLeilaoListView() {
+    	System.out.println("ABEL EH BALDE");
+    	initReadMessage();
+    	leilaoArrayList = this.readMessage.getMsgList();
+    	leilaoObservableList = FXCollections.observableArrayList(leilaoArrayList);
+    	leilaoItemList.setItems(leilaoObservableList);
+    }
+    
+    public MainScreenController() {
+    	System.out.println("ABEL");
+    	initReadMessage();
+		
+    }
+    
+    public void initReadMessage() {
+    	Thread readMessageThread = new Thread(){ public void run(){ readMessage = new ReadMessage(); } };
+		readMessageThread.start();
     }
 
 }
