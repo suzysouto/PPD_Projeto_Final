@@ -16,17 +16,10 @@ public class WriteMessage {
             System.out.println("O servico JavaSpace foi encontrado.");
             System.out.println(space);
             
-//            Scanner scanner = new Scanner(System.in);
-//            while (true) {
-//                System.out.print("Entre com o texto da mensagem (ENTER para sair): ");
-//                String message = scanner.nextLine();
-//                if (message == null || message.equals("")) {
-//                    System.exit(0);
-//                }
-                Message msg = new Message();
-                msg.content = message;
-                space.write(msg, null, 60 * 1000);
-//            }
+            Message msg = new Message();
+            msg.content = message;
+            space.write(msg, null, 60 * 1000);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

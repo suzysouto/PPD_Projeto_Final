@@ -5,13 +5,8 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 	
-//	ReadMessage readMessage;
-	
 	@Override
 	public void start(Stage primaryStage) {
-		
-//		Thread readMessageThread = new Thread(){ public void run(){ readMessage = new ReadMessage(); } };
-//		readMessageThread.start();
 	
 		MainScreen mainScreen = new MainScreen(primaryStage);
 	}

@@ -56,6 +56,8 @@ public class MainScreenController {
     	
 		Thread writeMessageThread = new Thread(){ public void run(){ WriteMessage writeMessage = new WriteMessage(leilaoItem); } };
 		writeMessageThread.start();
+		
+		updateLeilaoListView();
     	
     	return true;
     }
@@ -73,7 +75,6 @@ public class MainScreenController {
     @FXML
     void registrarButtonAction(ActionEvent event) {
     	System.out.println("registrar");
-    	updateLeilaoListView();
     }
 
     @FXML
@@ -96,8 +97,7 @@ public class MainScreenController {
     }
     
     public void updateLeilaoListView() {
-    	System.out.println("ABEL EH BALDE");
-    	initReadMessage();
+    	readMessage.readMessages();
     	leilaoArrayList = this.readMessage.getMsgList();
     	leilaoObservableList = FXCollections.observableArrayList(leilaoArrayList);
     	leilaoItemList.setItems(leilaoObservableList);
