@@ -125,14 +125,14 @@ public class MainScreenController {
             System.out.println(this.space);
             
             while (true) {
-                Message template = new Message();
-                Message msg = (Message) space.take(template, null, 60 * 1000);
+                MessageReturn template = new MessageReturn();
+                MessageReturn msg = (MessageReturn) space.take(template, null, 60 * 1000);
                 if (msg == null) {
                     System.out.println("Tempo de espera esgotado");
 //                    System.exit(0);
                 }
-                System.out.println("Mensagem recebida: "+ msg.content);
-                leilaoArrayList.add((LeilaoItem) msg.content);
+                System.out.println("Mensagem recebida: "+ msg.contentReturn);
+                leilaoArrayList.add((LeilaoItem) msg.contentReturn);
                 updateLeilaoListView();
             }
             
