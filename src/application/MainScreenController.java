@@ -56,8 +56,14 @@ public class MainScreenController {
     			nomeTextField.getText(),
     			valorTextField.getText(),
     			descricaoTextArea.getText());
-		
-		startWriteMessage(leilaoItem);
+    	
+    	leilaoArrayList.add(leilaoItem);
+    	
+    	List<Object> leilaoObjects = new ArrayList<Object>();
+    	for (LeilaoItem item: leilaoArrayList) {
+    		leilaoObjects.add((Object)item);
+    	}
+		startWriteMessage(leilaoObjects);
 		startWriteNotify();
 	
     	return true;
@@ -110,8 +116,8 @@ public class MainScreenController {
 		
     }
     
-    public void startWriteMessage(LeilaoItem leilaoItem) {
-    	Thread writeMessageThread = new Thread(){ public void run(){ WriteMessage writeMessage = new WriteMessage(leilaoItem); } };
+    public void startWriteMessage(List<Object> leilaoObjects) {
+    	Thread writeMessageThread = new Thread(){ public void run(){ WriteMessage writeMessage = new WriteMessage(leilaoObjects); } };
 		writeMessageThread.start();
     }
     
@@ -178,29 +184,22 @@ public class MainScreenController {
             System.out.println("[READ MESSAGE] - O servico JavaSpace foi encontrado.");
             System.out.println(this.space);
             
-            List<Message> spaceArrayCopy = new ArrayList<Message>();
-            List<LeilaoItem> leilaoItems = new ArrayList<LeilaoItem>();
             
-            while (true) {
-                Message template = new Message();
-                Message msg = (Message) space.take(template, null, 100 * 5);
-                if (msg == null) {
-                    System.out.println("[READ MESSAGE] - Tempo de espera esgotado");
-                    break;
-                }
-                System.out.println("[READ MESSAGE] - Mensagem recebida: "+ msg.content);
-                spaceArrayCopy.add(msg);
+            Message template = new Message();
+            Message msg = (Message) space.take(template, null, 100 * 5);
+            if (msg == null) {
+                System.out.println("[READ MESSAGE] - Tempo de espera esgotado");
             }
-            
-            for (Message msg : spaceArrayCopy) {
-            	space.write(msg, null, 100 * 1000 * 1000);
-            	leilaoItems.add((LeilaoItem) msg.content);
-            }
-            
-            spaceArrayCopy = new ArrayList<Message>();
+            System.out.println("[READ MESSAGE] - Mensagem recebida: "+ msg.content);
+           
+        	space.write(msg, null, 100 * 1000 * 1000);
+        	
+        	List<LeilaoItem> leilaoItems = new ArrayList<LeilaoItem>();
+        	for (Object content : msg.content) {
+        		leilaoItems.add((LeilaoItem) content); 
+        	}
             this.leilaoArrayList = leilaoItems;
-            leilaoItems = new ArrayList<LeilaoItem>();
-            
+        
             updateLeilaoListView();
           
         }catch (Exception e) {
