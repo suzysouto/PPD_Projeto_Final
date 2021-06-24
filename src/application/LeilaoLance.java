@@ -9,9 +9,9 @@ public class LeilaoLance implements Serializable {
 	private static final long serialVersionUID = 1L;
 	Integer id;
 	String nome;
-	String valor;
+	Float valor;
 	
-	public LeilaoLance(Integer id, String nome, String valor) {
+	public LeilaoLance(Integer id, String nome, Float valor) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -34,16 +34,16 @@ public class LeilaoLance implements Serializable {
 		this.nome = nome;
 	}
 
-	public String getValor() {
+	public Float getValor() {
 		return valor;
 	}
 
-	public void setValor(String valor) {
+	public void setValor(Float valor) {
 		this.valor = valor;
 	}
 
 	@Override
 	public String toString() {
-		return this.nome +" - "+ this.valor;
+		return this.nome +" - "+ this.valor+" R$";
 	}
 }

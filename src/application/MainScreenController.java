@@ -7,11 +7,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import net.jini.space.JavaSpace;
 
 public class MainScreenController {
@@ -22,6 +24,7 @@ public class MainScreenController {
 	ObservableList<LeilaoLance> lanceObservableList;
 	
 	Integer selectedItemIndex;
+	String username;
 	
 	JavaSpace space;
 
@@ -55,11 +58,16 @@ public class MainScreenController {
     		return false;
     	}
     	
+    	Node node = (Node) event.getSource();
+    	Stage stage = (Stage) node.getScene().getWindow();
+    	username = (String) stage.getUserData();
+    	
     	System.out.println("[CADASTRAR]");
     	
     	LeilaoItem leilaoItem = new LeilaoItem(
     			nomeTextField.getText(),
     			valorTextField.getText(),
+    			this.username,
     			descricaoTextArea.getText());
     	
     	leilaoArrayList.add(leilaoItem);
@@ -94,10 +102,16 @@ public class MainScreenController {
     void registrarButtonAction(ActionEvent event) {
     	System.out.println("[REGISTRAR]");
     	
+    	Node node = (Node) event.getSource();
+    	Stage stage = (Stage) node.getScene().getWindow();
+    	username = (String) stage.getUserData();
+    	
+    	String valotString = registrarValorTextField.getText();
+    	
     	LeilaoLance lance = new LeilaoLance(
     			0,
-    			"ABEL",
-    			registrarValorTextField.getText());
+    			this.username,
+    			Float.parseFloat(valotString));
     	
     	LeilaoItem selectedItem = leilaoArrayList.get(this.selectedItemIndex);
     	

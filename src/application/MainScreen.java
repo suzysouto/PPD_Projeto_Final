@@ -6,11 +6,18 @@ import javafx.stage.Stage;
 
 public class MainScreen {
 	
+	private Pane root;
+	private Scene scene;
+	
 	public MainScreen(Stage primaryStage) {
+		startLoginScreen(primaryStage);
+	}
+	
+	public void startLoginScreen(Stage primaryStage) {
 		try {
-			Pane root = FXMLLoader.load(getClass().getResource("FXMLMainScreen.fxml"));
+			this.root = FXMLLoader.load(getClass().getResource("FXMLLoginScreen.fxml"));
 			
-			Scene scene = new Scene(root);
+			this.scene = new Scene(root);
 			
 			primaryStage.setScene(scene);
 			
@@ -20,4 +27,5 @@ public class MainScreen {
 			e.printStackTrace();
 		}
 	}
+
 }

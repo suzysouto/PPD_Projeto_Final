@@ -2,6 +2,8 @@ package application;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class LeilaoItem implements Serializable{
@@ -13,13 +15,23 @@ public class LeilaoItem implements Serializable{
 	
 	String nome;
 	String valor;
+	String vendedor;
 	String descricao;
 	List<LeilaoLance> lances = new ArrayList<LeilaoLance>();
 	
-	public LeilaoItem(String nome, String valor, String descricao) {
+	public LeilaoItem(String nome, String valor, String vendedor, String descricao) {
 		this.nome = nome;
 		this.valor = valor;
+		this.vendedor = vendedor;
 		this.descricao = descricao;
+	}
+
+	public String getVendedor() {
+		return vendedor;
+	}
+
+	public void setVendedor(String vendedor) {
+		this.vendedor = vendedor;
 	}
 
 	public String getNome() {
@@ -52,6 +64,8 @@ public class LeilaoItem implements Serializable{
 
 	public void addLance(LeilaoLance lance) {
 		this.lances.add(lance);
+		Comparator<LeilaoLance> compareByValor = (LeilaoLance o1, LeilaoLance o2) -> o1.getValor().compareTo( o2.getValor() );
+		Collections.sort(this.lances, compareByValor.reversed());
 	}
 	
 	public void removeLanceList(Integer id) {
@@ -70,7 +84,7 @@ public class LeilaoItem implements Serializable{
 	}
 	
 	public String toStringDetails() {
-		return nome+"\n"+valor+"\n"+descricao;
+		return "nome: "+nome+"\n"+"Vendedor: "+vendedor+"\n"+"Valor: "+valor+" R$\n"+"Descrição: "+descricao;
 	}
 
 }
