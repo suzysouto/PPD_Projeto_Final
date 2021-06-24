@@ -18,7 +18,7 @@ public class WriteMessage {
             System.out.println(space);
             
             Message template = new Message();
-            template = (Message) space.take(template, null, 100 * 5);
+            template = (Message) space.take(template, null, 100 * 1);
             if (template == null) {
                 System.out.println("[READ MESSAGE] - Tempo de espera esgotado");
             }

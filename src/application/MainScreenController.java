@@ -17,7 +17,12 @@ import net.jini.space.JavaSpace;
 public class MainScreenController {
 	
 	List<LeilaoItem> leilaoArrayList = new ArrayList<LeilaoItem>();
+	
 	ObservableList<LeilaoItem> leilaoObservableList;
+	ObservableList<LeilaoLance> lanceObservableList;
+	
+	Integer selectedItemIndex;
+	
 	JavaSpace space;
 
     @FXML
@@ -36,7 +41,7 @@ public class MainScreenController {
     private TextArea informacoesTextArea;
 
     @FXML
-    private ListView<?> lancesItemList;
+    private ListView<LeilaoLance> lancesItemList;
     
     @FXML
     private TextField registrarValorTextField;
@@ -76,12 +81,36 @@ public class MainScreenController {
 
     @FXML
     void leilaoItemClickAction(MouseEvent event) {
-    	System.out.println("leilao");
+    	System.out.println("[LEILAO]");
+    	this.selectedItemIndex = leilaoItemList.getSelectionModel().getSelectedIndex();
+    	LeilaoItem selectedItem = leilaoArrayList.get(this.selectedItemIndex);
+    	informacoesTextArea.setText(selectedItem.toStringDetails());
+    	itemLabel.setText(selectedItem.toString());
+    	updateLeilaoListView();
+    	//TODO COLOCAR BLOQUEIO NA CAIXA DE TEXTO
     }
 
     @FXML
     void registrarButtonAction(ActionEvent event) {
-    	System.out.println("registrar");
+    	System.out.println("[REGISTRAR]");
+    	
+    	LeilaoLance lance = new LeilaoLance(
+    			0,
+    			"ABEL",
+    			registrarValorTextField.getText());
+    	
+    	LeilaoItem selectedItem = leilaoArrayList.get(this.selectedItemIndex);
+    	
+    	selectedItem.addLance(lance);
+    	
+    	List<Object> leilaoObjects = new ArrayList<Object>();
+    	for (LeilaoItem item: leilaoArrayList) {
+    		leilaoObjects.add((Object)item);
+    	}
+    	
+    	startWriteMessage(leilaoObjects);
+		startWriteNotify();
+    	
     }
 
     @FXML
@@ -107,6 +136,11 @@ public class MainScreenController {
     	System.out.println("[UPDATE LEILAO VIEW] - Atualizando View");
     	leilaoObservableList = FXCollections.observableArrayList(leilaoArrayList);
     	leilaoItemList.setItems(leilaoObservableList);
+    	
+    	LeilaoItem selectedItem = leilaoArrayList.get(this.selectedItemIndex);
+    	
+    	lanceObservableList = FXCollections.observableArrayList(selectedItem.getLanceList());
+    	lancesItemList.setItems(lanceObservableList);
     }
     
     public MainScreenController() {
@@ -163,7 +197,7 @@ public class MainScreenController {
         if (note == null) {
             System.out.println("[READ NOTIFY] - Tempo de espera esgotado");
         }
-        space.write(note, null, 100 * 5);
+        space.write(note, null, 100 * 1);
         startReadMessage();
         
     	} catch (Exception e) {
@@ -186,7 +220,7 @@ public class MainScreenController {
             
             
             Message template = new Message();
-            Message msg = (Message) space.take(template, null, 100 * 5);
+            Message msg = (Message) space.take(template, null, 100 * 3);
             if (msg == null) {
                 System.out.println("[READ MESSAGE] - Tempo de espera esgotado");
             }

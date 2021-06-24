@@ -19,7 +19,7 @@ public class WriteNotify {
 	            
 	            Notify note = new Notify();
 	            note.id = 1;
-	            space.write(note, null, 100 * 1000);
+	            space.write(note, null, 100 * 100);
 
 	        } catch (Exception e) {
 	            e.printStackTrace();

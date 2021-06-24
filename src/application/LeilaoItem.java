@@ -1,6 +1,8 @@
 package application;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LeilaoItem implements Serializable{
 
@@ -12,6 +14,7 @@ public class LeilaoItem implements Serializable{
 	String nome;
 	String valor;
 	String descricao;
+	List<LeilaoLance> lances = new ArrayList<LeilaoLance>();
 	
 	public LeilaoItem(String nome, String valor, String descricao) {
 		this.nome = nome;
@@ -43,11 +46,31 @@ public class LeilaoItem implements Serializable{
 		this.descricao = descricao;
 	}
 	
-	@Override
-	public String toString() {
-		return "LeilaoItem [nome=" + nome + ", valor=" + valor + ", descricao=" + descricao + "]";
+	public List<LeilaoLance> getLanceList() {
+		return this.lances;
+	}
+
+	public void addLance(LeilaoLance lance) {
+		this.lances.add(lance);
 	}
 	
+	public void removeLanceList(Integer id) {
+		for (int i = 0; i < this.lances.size(); i++) {
+	          if (this.lances.get(i).getId() == id) {
 	
+	          
+	        	  this.lances.remove(i);
+	          }
+		}
+	}
+	
+	@Override
+	public String toString() {
+		return nome;
+	}
+	
+	public String toStringDetails() {
+		return nome+"\n"+valor+"\n"+descricao;
+	}
 
 }
