@@ -1,34 +1,28 @@
 package application;
 import net.jini.space.JavaSpace;
-import java.util.List;
 
 public class WriteMessage {
+	JavaSpace space;
 
-    public WriteMessage(List<Object> message) {
+    public WriteMessage() {
         try {
-        	System.out.println("[WRITE MESSAGE]");
-            System.out.println("[WRITE MESSAGE] - Procurando pelo servico JavaSpace...");
+        	System.out.println("WRITEMESSAGE");
+            System.out.println("Procurando pelo servico JavaSpace...");
             Lookup finder = new Lookup(JavaSpace.class);
-            JavaSpace space = (JavaSpace) finder.getService();
+            space = (JavaSpace) finder.getService();
             if (space == null) {
-                    System.out.println("[WRITE MESSAGE] - O servico JavaSpace nao foi encontrado. Encerrando...");
+                    System.out.println("O servico JavaSpace nao foi encontrado. Encerrando...");
                     System.exit(-1);
             } 
-            System.out.println("[WRITE MESSAGE] - O servico JavaSpace foi encontrado.");
+            System.out.println("O servico JavaSpace foi encontrado.");
             System.out.println(space);
-            
-            Message template = new Message();
-            template = (Message) space.take(template, null, 100 * 1);
-            if (template == null) {
-                System.out.println("[READ MESSAGE] - Tempo de espera esgotado");
-            }
-            
-            Message msg = new Message();
-            msg.content = message;
-            space.write(msg, null, 100 * 1000 * 1000);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    //Escreve o objeto person do tipo Person no espaço de tuplas.
+    public void WritePerson(Person person) throws Exception { 
+    	space.write(person, null, 100 * 1000 * 1000);
     }
 }

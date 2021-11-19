@@ -10,19 +10,17 @@ public class MainScreen {
 	private Scene scene;
 	
 	public MainScreen(Stage primaryStage) {
-		startLoginScreen(primaryStage);
+		TelaLogin(primaryStage);
 	}
 	
-	public void startLoginScreen(Stage primaryStage) {
+	public void TelaLogin(Stage primaryStage) {
 		try {
-			this.root = FXMLLoader.load(getClass().getResource("FXMLLoginScreen.fxml"));
+			this.root = FXMLLoader.load(getClass().getResource("login.fxml"));			
+			this.scene = new Scene(root);	
 			
-			this.scene = new Scene(root);
-			
-			primaryStage.setScene(scene);
-			
-			primaryStage.show();
-			
+			primaryStage.setTitle("Chat da Final");			
+			primaryStage.setScene(scene);			
+			primaryStage.show();			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
